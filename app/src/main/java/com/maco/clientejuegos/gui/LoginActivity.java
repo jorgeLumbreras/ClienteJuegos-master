@@ -27,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //ver si rula esto
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Store.get().setCurrentContext(this);
