@@ -19,7 +19,7 @@ import edu.uclm.esi.common.jsonMessages.SudokuBoardMessage;
 
 public class WaitingAreaActivity extends AppCompatActivity implements IMessageDealerActivity {
     private LinearLayout layout;
-
+    //hola
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
