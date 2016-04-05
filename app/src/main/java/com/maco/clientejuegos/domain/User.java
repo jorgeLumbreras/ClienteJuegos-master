@@ -11,7 +11,7 @@ public class User {
         this.email=email;
         this.idUser=idUser;
     }
-
+// ojete calor
     public String getEmail() {
         return email;
     }
