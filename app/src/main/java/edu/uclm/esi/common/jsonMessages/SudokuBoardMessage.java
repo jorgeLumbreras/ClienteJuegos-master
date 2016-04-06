@@ -3,9 +3,7 @@ package edu.uclm.esi.common.jsonMessages;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by JulioAlberto on 03/03/2016.
- */
+
 public class SudokuBoardMessage extends JSONMessage {
     @JSONable
     private String board;

@@ -3,9 +3,7 @@ package edu.uclm.esi.common.jsonMessages;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by vicpraga on 03/03/2016.
- */
+
 public class JoinGameMessage extends JSONMessage {
     @JSONable
     private int idUser;
