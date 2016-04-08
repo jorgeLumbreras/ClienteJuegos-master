@@ -36,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
     public void login(View view) {
         if (loginTask!=null)
             return;
+        EditText etIPServer=(EditText) this.findViewById(R.id.etIPServer);
+        Proxy.get().setUrlServer(etIPServer.getText().toString());
         EditText etEmail= (EditText) this.findViewById(R.id.etEmail);
         EditText etPwd= (EditText) this.findViewById(R.id.etPwd);
         this.loginTask=new LoginTask(this, etEmail.getText().toString(), etPwd.getText().toString());
