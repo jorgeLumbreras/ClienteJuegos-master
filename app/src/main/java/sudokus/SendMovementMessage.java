@@ -9,7 +9,7 @@ import edu.uclm.esi.common.jsonMessages.JSONable;
 /**
  * Created by Jaime on 12/04/2016.
  */
-public class MovementMessage extends JSONMessage {
+public class SendMovementMessage extends JSONMessage {
 
     @JSONable
     private String user;
@@ -20,7 +20,7 @@ public class MovementMessage extends JSONMessage {
     @JSONable
     private String valor;
 
-    public MovementMessage(String user,int idMatch, int casilla, String valor) {
+    public SendMovementMessage(String user, int idMatch, int casilla, String valor) {
         super(false);
         this.user = user;
         this.idMatch = idMatch;
@@ -28,7 +28,7 @@ public class MovementMessage extends JSONMessage {
         this.valor = valor;
     }
 
-    public MovementMessage(JSONObject jso) throws JSONException {
+    public SendMovementMessage(JSONObject jso) throws JSONException {
         this(jso.getString("user"),jso.getInt("idMatch"),jso.getInt("casilla"),jso.getString("valor"));
     }
 
