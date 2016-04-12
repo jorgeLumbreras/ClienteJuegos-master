@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LogoutMessageAnnouncement extends JSONMessage {
+	@JSONable
 	private String email;
 
 	public LogoutMessageAnnouncement(String email) {
