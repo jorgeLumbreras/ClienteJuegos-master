@@ -21,7 +21,7 @@ public class SendMovementMessage extends JSONMessage {
     private String valor;
 
     public SendMovementMessage(String user, int idMatch, int casilla, String valor) {
-        super(false);
+        super(true);
         this.user = user;
         this.idMatch = idMatch;
         this.casilla = casilla;
