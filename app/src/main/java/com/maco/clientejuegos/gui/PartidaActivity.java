@@ -205,6 +205,22 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
         casillas2[80] = (EditText) findViewById(R.id.editText180);
 
 
+        for(int i=0;i<casillas1.length;i++){
+
+            String valor_tablero= String.valueOf(cadena[i]);
+
+            if(valor_tablero.equalsIgnoreCase("0")){
+                this.casillas1[i].setText("");
+                this.casillas2[i].setText("");
+
+            }
+            else{
+                this.casillas1[i].setText(valor_tablero);
+                this.casillas1[i].setFocusable(false);
+                this.casillas2[i].setText(valor_tablero);
+            }
+        }
+
         MessageRecoverer messageRecoverer = MessageRecoverer.get(this);
         messageRecoverer.setActivity(this);
         Thread t = new Thread(messageRecoverer);
