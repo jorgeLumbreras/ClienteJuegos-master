@@ -1,27 +1,21 @@
 package com.maco.clientejuegos.gui;
 
-import android.graphics.Paint;
-import android.net.Uri;
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.maco.clientejuegos.R;
 import com.maco.clientejuegos.domain.Store;
-import com.maco.clientejuegos.domain.User;
+import com.maco.clientejuegos.http.MessageRecoverer;
 import com.maco.clientejuegos.http.NetTask;
 
-import java.util.regex.Matcher;
-
+import edu.uclm.esi.common.jsonMessages.JSONMessage;
 import sudokus.SendMovementMessage;
 
-public class PartidaActivity extends AppCompatActivity {
+public class PartidaActivity extends AppCompatActivity implements IMessageDealerActivity {
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -211,6 +205,10 @@ public class PartidaActivity extends AppCompatActivity {
         casillas2[80] = (EditText) findViewById(R.id.editText180);
 
 
+        MessageRecoverer messageRecoverer = MessageRecoverer.get(this);
+        messageRecoverer.setActivity(this);
+        Thread t = new Thread(messageRecoverer);
+        t.start();
 
 
         casillas1[0].addTextChangedListener(new TextWatcher() {
@@ -273,6 +271,27 @@ public class PartidaActivity extends AppCompatActivity {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
        // client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
+
+    @Override
+    public void showMessage(JSONMessage jsm) {
+        if (jsm.getType().equals(SendMovementMessage.class.getSimpleName())) {
+            SendMovementMessage smm = (SendMovementMessage) jsm;
+
+
+            int pos_casilla=smm.getCasilla();
+            String valor_casilla=smm.getValor();
+
+            if(valor_casilla.equalsIgnoreCase("")){
+                this.casillas2[pos_casilla].setText("");
+
+            }
+            else{
+                this.casillas2[pos_casilla].setText("X");
+            }
+        }
+    }
+
+
 /*
     @Override
     public void onStart() {

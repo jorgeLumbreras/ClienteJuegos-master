@@ -3,6 +3,8 @@ package edu.uclm.esi.common.jsonMessages;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import sudokus.SendMovementMessage;
+
 public class JSONMessagesBuilder {
 	public static JSONMessage build(JSONObject jso) throws JSONException {
 		if (jso.get("type").equals(ErrorMessage.class.getSimpleName()))
@@ -21,6 +23,9 @@ public class JSONMessagesBuilder {
 			return new MessageList(jso);
 		if (jso.get("type").equals(SudokuBoardMessage.class.getSimpleName()))
 			return new SudokuBoardMessage(jso);
+		if (jso.get("type").equals(SendMovementMessage.class.getSimpleName()))
+			return new SendMovementMessage(jso);
+
 /*
 		if (jso.get("type").equals(SudokuBoardMessage.class.getSimpleName()))
 			return new SudokuBoardMessage(jso);
