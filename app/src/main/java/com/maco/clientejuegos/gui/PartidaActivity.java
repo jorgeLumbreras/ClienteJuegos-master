@@ -226,29 +226,13 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
         Thread t = new Thread(messageRecoverer);
         t.start();
 
+        for(int i=0;i<casillas1.length;i++) {
+            CasillaListener cl = new CasillaListener(casillas1[i],i);
+            casillas1[i].addTextChangedListener(cl);
+        }
 
-        casillas1[0].addTextChangedListener(new TextWatcher() {
 
-            public void afterTextChanged(Editable s) {
-            }
 
-            public void beforeTextChanged(CharSequence s, int start,
-                                          int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start,
-                                      int before, int count) {
-                //TextView myOutputBox = (TextView) findViewById(R.id.editText4);
-                // casillas2[u].setText(s);
-
-                String valor= String.valueOf(casillas1[0].getText());
-                SendMovementMessage smm=new SendMovementMessage(Store.get().getUser().getEmail(), Store.get().getIdMatch(), 0,valor);
-                NetTask task=new NetTask("SendMovement.action", smm);
-                task.execute();
-
-                //557114
-            }
-        });
 
 
 
@@ -307,45 +291,8 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
         }
     }
 
-
-/*
     @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Partida Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.maco.clientejuegos.gui/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
+    public void onBackPressed() {
+        super.onBackPressed();
     }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Partida Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.maco.clientejuegos.gui/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
-    }*/
 }
