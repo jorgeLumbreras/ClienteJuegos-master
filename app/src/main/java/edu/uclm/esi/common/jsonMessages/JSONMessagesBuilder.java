@@ -25,6 +25,9 @@ public class JSONMessagesBuilder {
 			return new SudokuBoardMessage(jso);
 		if (jso.get("type").equals(SendMovementMessage.class.getSimpleName()))
 			return new SendMovementMessage(jso);
+		if (jso.get("type").equals(SurrenderAnnouncement.class.getSimpleName()))
+			return new SurrenderAnnouncement(jso);
+
 
 /*
 		if (jso.get("type").equals(SudokuBoardMessage.class.getSimpleName()))

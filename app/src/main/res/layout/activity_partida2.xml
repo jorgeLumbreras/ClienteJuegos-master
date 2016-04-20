@@ -3123,7 +3123,8 @@
             android:layout_height="wrap_content"
             android:text="Rendirse"
             android:id="@+id/btnRendirse"
-            android:layout_gravity="right|bottom" />
+            android:layout_gravity="right|bottom"
+            android:onClick="warning" />
     </FrameLayout>
 
 </LinearLayout>

@@ -91,4 +91,5 @@ public class WaitingAreaActivity extends AppCompatActivity implements IMessageDe
         }
         task=null;
     }
+
 }

@@ -1,10 +1,11 @@
 package com.maco.clientejuegos.gui;
 
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 
 import com.maco.clientejuegos.R;
@@ -12,7 +13,12 @@ import com.maco.clientejuegos.domain.Store;
 import com.maco.clientejuegos.http.MessageRecoverer;
 import com.maco.clientejuegos.http.NetTask;
 
+import java.util.concurrent.ExecutionException;
+
+import edu.uclm.esi.common.jsonMessages.ErrorMessage;
+import edu.uclm.esi.common.jsonMessages.SurrenderAnnouncement;
 import edu.uclm.esi.common.jsonMessages.JSONMessage;
+import edu.uclm.esi.common.jsonMessages.OKMessage;
 import sudokus.SendMovementMessage;
 
 public class PartidaActivity extends AppCompatActivity implements IMessageDealerActivity {
@@ -217,7 +223,9 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
             else{
                 this.casillas1[i].setText(valor_tablero);
                 this.casillas1[i].setFocusable(false);
+                this.casillas1[i].setBackgroundColor(Color.GREEN);
                 this.casillas2[i].setText(valor_tablero);
+                this.casillas2[i].setBackgroundColor(Color.LTGRAY);
             }
         }
 
@@ -232,44 +240,6 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
         }
 
 
-
-
-
-
-/*
-        for (posicion = 0; posicion < casillas1.length; posicion++) {
-            //sumamos 100 para tener el numero de la casilla2 para el otro player
-           // u = i+100;
-
-            casillas1[posicion].addTextChangedListener(new TextWatcher() {
-
-                public void afterTextChanged(Editable s) {
-                }
-
-                public void beforeTextChanged(CharSequence s, int start,
-                                              int count, int after) {
-                }
-
-                public void onTextChanged(CharSequence s, int start,
-                                          int before, int count) {
-                    //TextView myOutputBox = (TextView) findViewById(R.id.editText4);
-                   // casillas2[u].setText(s);
-
-                    String valor= String.valueOf(casillas1[posicion].getText());
-                    SendMovementMessage smm=new SendMovementMessage(Store.get().getUser().getEmail(), Store.get().getIdMatch(), posicion,valor);
-                    NetTask task=new NetTask("SendMovementMessage.action", smm);
-                    task.execute();
-
-                   //557114
-                }
-            });
-        }*/
-
-        //  Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //  setSupportActionBar(toolbar);
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-       // client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -289,6 +259,39 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
                 this.casillas2[pos_casilla].setText("X");
             }
         }
+    }
+
+    public void abandonarPartida(View view){
+        Store store=Store.get();
+        SurrenderAnnouncement lma=new SurrenderAnnouncement(store.getUser().getEmail(), store.getIdMatch());
+        NetTask task=new NetTask("FinishMatch.action", lma);
+        task.execute();
+
+        JSONMessage resultadoFinishmatch= null;
+        try {
+            resultadoFinishmatch = task.get();
+            if (resultadoFinishmatch.getType().equals(ErrorMessage.class.getSimpleName())) {
+                ErrorMessage em=(ErrorMessage) resultadoFinishmatch;
+                Store.get().toast(em.getText());
+            } else if (resultadoFinishmatch.getType().equals(OKMessage.class.getSimpleName())) {
+                OKMessage okM=(OKMessage) resultadoFinishmatch;
+                Intent intent=new Intent(this, LoginActivity.class);
+                startActivity(intent);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            Store.get().toast("Tarea interrumpida: " + e.getMessage());
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            Store.get().toast("Error en ejecución: " + e.getMessage());
+        }
+        task=null;
+    }
+
+    public void warning(View view) {
+        Intent intent=new Intent(this, WarningActivity.class);
+        startActivity(intent);
+
     }
 
     @Override
