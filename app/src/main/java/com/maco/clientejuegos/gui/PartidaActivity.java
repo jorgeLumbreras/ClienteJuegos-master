@@ -278,20 +278,20 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
 
         }
         if (jsm.getType().equals(VictoryAnnouncement.class.getSimpleName())) {
-            LogoutWaitingMessage lma=new LogoutWaitingMessage(Store.get().getUser().getEmail());
-            NetTask task=new NetTask("LogoutWaiting.action", lma);
+            Store store=Store.get();
+            store.toast("¡Has ganado!");
+            LogoutWaitingMessage lom=new LogoutWaitingMessage(store.getUser().getEmail(), store.getIdMatch(),false);
+            NetTask task=new NetTask("LogoutWaiting.action", lom);
             task.execute();
 
-            JSONMessage resultadoFinishmatch= null;
+            JSONMessage resultadoLogoutWaiting= null;
             try {
-                resultadoFinishmatch = task.get();
-                if (resultadoFinishmatch.getType().equals(ErrorMessage.class.getSimpleName())) {
-                    ErrorMessage em=(ErrorMessage) resultadoFinishmatch;
+                resultadoLogoutWaiting = task.get();
+                if (resultadoLogoutWaiting.getType().equals(ErrorMessage.class.getSimpleName())) {
+                    ErrorMessage em=(ErrorMessage) resultadoLogoutWaiting;
                     Store.get().toast(em.getText());
-                } else if (resultadoFinishmatch.getType().equals(OKMessage.class.getSimpleName())) {
-                    OKMessage okM=(OKMessage) resultadoFinishmatch;
-                    //dialogo
-                    Store.get().toast("HAS GANAU");
+                } else if (resultadoLogoutWaiting.getType().equals(OKMessage.class.getSimpleName())) {
+                    OKMessage okM=(OKMessage) resultadoLogoutWaiting;
                     Intent intent=new Intent(this, LoginActivity.class);
                     startActivity(intent);
                 }
@@ -303,23 +303,26 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
                 Store.get().toast("Error en ejecución: " + e.getMessage());
             }
             task=null;
+
+            Intent intent=new Intent(this, LoginActivity.class);
+            startActivity(intent);
 
         }
         if (jsm.getType().equals(DefeatAnnouncement.class.getSimpleName())) {
-            LogoutMessageAnnouncement lma=new LogoutMessageAnnouncement(Store.get().getUser().getEmail());
-            NetTask task=new NetTask("Logout.action", lma);
+            Store store=Store.get();
+            store.toast("Has sido derrotado");
+            LogoutWaitingMessage lom=new LogoutWaitingMessage(store.getUser().getEmail(), store.getIdMatch(),false);
+            NetTask task=new NetTask("LogoutWaiting.action", lom);
             task.execute();
 
-            JSONMessage resultadoFinishmatch= null;
+            JSONMessage resultadoLogoutWaiting= null;
             try {
-                resultadoFinishmatch = task.get();
-                if (resultadoFinishmatch.getType().equals(ErrorMessage.class.getSimpleName())) {
-                    ErrorMessage em=(ErrorMessage) resultadoFinishmatch;
+                resultadoLogoutWaiting = task.get();
+                if (resultadoLogoutWaiting.getType().equals(ErrorMessage.class.getSimpleName())) {
+                    ErrorMessage em=(ErrorMessage) resultadoLogoutWaiting;
                     Store.get().toast(em.getText());
-                } else if (resultadoFinishmatch.getType().equals(OKMessage.class.getSimpleName())) {
-                    OKMessage okM=(OKMessage) resultadoFinishmatch;
-                    //dialogo
-                    Store.get().toast("HAS PERDIU");
+                } else if (resultadoLogoutWaiting.getType().equals(OKMessage.class.getSimpleName())) {
+                    OKMessage okM=(OKMessage) resultadoLogoutWaiting;
                     Intent intent=new Intent(this, LoginActivity.class);
                     startActivity(intent);
                 }
@@ -331,6 +334,9 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
                 Store.get().toast("Error en ejecución: " + e.getMessage());
             }
             task=null;
+
+            Intent intent=new Intent(this, LoginActivity.class);
+            startActivity(intent);
         }
 
 

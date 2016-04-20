@@ -68,7 +68,7 @@ public class WaitingAreaActivity extends AppCompatActivity implements IMessageDe
 
     public void abandonarEspera(View view) {
         Store store=Store.get();
-        LogoutMessageAnnouncement lom=new LogoutMessageAnnouncement(store.getUser().getEmail());
+        LogoutWaitingMessage lom=new LogoutWaitingMessage(store.getUser().getEmail(), store.getIdMatch(),true);
         NetTask task=new NetTask("LogoutWaiting.action", lom);
         task.execute();
 
