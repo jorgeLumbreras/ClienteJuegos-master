@@ -18,6 +18,7 @@ import edu.uclm.esi.common.jsonMessages.ErrorMessage;
 import edu.uclm.esi.common.jsonMessages.JSONMessage;
 import edu.uclm.esi.common.jsonMessages.JoinGameMessage;
 import edu.uclm.esi.common.jsonMessages.LoginMessageAnnouncement;
+import edu.uclm.esi.common.jsonMessages.LogoutMessageAnnouncement;
 import edu.uclm.esi.common.jsonMessages.LogoutWaitingMessage;
 import edu.uclm.esi.common.jsonMessages.OKMessage;
 import edu.uclm.esi.common.jsonMessages.SudokuBoardMessage;
@@ -67,7 +68,7 @@ public class WaitingAreaActivity extends AppCompatActivity implements IMessageDe
 
     public void abandonarEspera(View view) {
         Store store=Store.get();
-        LogoutWaitingMessage lom=new LogoutWaitingMessage(store.getUser().getEmail());
+        LogoutMessageAnnouncement lom=new LogoutMessageAnnouncement(store.getUser().getEmail());
         NetTask task=new NetTask("LogoutWaiting.action", lom);
         task.execute();
 

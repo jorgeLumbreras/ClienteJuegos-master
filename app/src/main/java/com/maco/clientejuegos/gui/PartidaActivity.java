@@ -1,12 +1,15 @@
 package com.maco.clientejuegos.gui;
 
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.maco.clientejuegos.R;
 import com.maco.clientejuegos.domain.Store;
@@ -16,10 +19,14 @@ import com.maco.clientejuegos.http.NetTask;
 import java.util.concurrent.ExecutionException;
 
 import edu.uclm.esi.common.jsonMessages.ErrorMessage;
+import edu.uclm.esi.common.jsonMessages.LogoutMessageAnnouncement;
+import edu.uclm.esi.common.jsonMessages.LogoutWaitingMessage;
 import edu.uclm.esi.common.jsonMessages.SurrenderAnnouncement;
 import edu.uclm.esi.common.jsonMessages.JSONMessage;
 import edu.uclm.esi.common.jsonMessages.OKMessage;
+import sudokus.DefeatAnnouncement;
 import sudokus.SendMovementMessage;
+import sudokus.VictoryAnnouncement;
 
 public class PartidaActivity extends AppCompatActivity implements IMessageDealerActivity {
 
@@ -39,6 +46,8 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_partida2);
 
+        Button btnRendirse=(Button) findViewById(R.id.btnRendirse);
+        Button btnComprobar=(Button) findViewById(R.id.btnComprobar);
 
         //con esto obtengo el tablero que lleva el intent
         String b = (String) this.getIntent().getExtras().get("board");
@@ -239,6 +248,14 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
             casillas1[i].addTextChangedListener(cl);
         }
 
+        btnRendirse.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getFragmentManager();
+                SurrenderDialog dialogo = new SurrenderDialog();
+                dialogo.show(fragmentManager, "tagAlerta");
+            }
+        });
+
 
     }
 
@@ -258,35 +275,68 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
             else{
                 this.casillas2[pos_casilla].setText("X");
             }
+
         }
-    }
+        if (jsm.getType().equals(VictoryAnnouncement.class.getSimpleName())) {
+            LogoutWaitingMessage lma=new LogoutWaitingMessage(Store.get().getUser().getEmail());
+            NetTask task=new NetTask("LogoutWaiting.action", lma);
+            task.execute();
 
-    public void abandonarPartida(View view){
-        Store store=Store.get();
-        SurrenderAnnouncement lma=new SurrenderAnnouncement(store.getUser().getEmail(), store.getIdMatch());
-        NetTask task=new NetTask("FinishMatch.action", lma);
-        task.execute();
-
-        JSONMessage resultadoFinishmatch= null;
-        try {
-            resultadoFinishmatch = task.get();
-            if (resultadoFinishmatch.getType().equals(ErrorMessage.class.getSimpleName())) {
-                ErrorMessage em=(ErrorMessage) resultadoFinishmatch;
-                Store.get().toast(em.getText());
-            } else if (resultadoFinishmatch.getType().equals(OKMessage.class.getSimpleName())) {
-                OKMessage okM=(OKMessage) resultadoFinishmatch;
-                Intent intent=new Intent(this, LoginActivity.class);
-                startActivity(intent);
+            JSONMessage resultadoFinishmatch= null;
+            try {
+                resultadoFinishmatch = task.get();
+                if (resultadoFinishmatch.getType().equals(ErrorMessage.class.getSimpleName())) {
+                    ErrorMessage em=(ErrorMessage) resultadoFinishmatch;
+                    Store.get().toast(em.getText());
+                } else if (resultadoFinishmatch.getType().equals(OKMessage.class.getSimpleName())) {
+                    OKMessage okM=(OKMessage) resultadoFinishmatch;
+                    //dialogo
+                    Store.get().toast("HAS GANAU");
+                    Intent intent=new Intent(this, LoginActivity.class);
+                    startActivity(intent);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                Store.get().toast("Tarea interrumpida: " + e.getMessage());
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+                Store.get().toast("Error en ejecución: " + e.getMessage());
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            Store.get().toast("Tarea interrumpida: " + e.getMessage());
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-            Store.get().toast("Error en ejecución: " + e.getMessage());
+            task=null;
+
         }
-        task=null;
+        if (jsm.getType().equals(DefeatAnnouncement.class.getSimpleName())) {
+            LogoutMessageAnnouncement lma=new LogoutMessageAnnouncement(Store.get().getUser().getEmail());
+            NetTask task=new NetTask("Logout.action", lma);
+            task.execute();
+
+            JSONMessage resultadoFinishmatch= null;
+            try {
+                resultadoFinishmatch = task.get();
+                if (resultadoFinishmatch.getType().equals(ErrorMessage.class.getSimpleName())) {
+                    ErrorMessage em=(ErrorMessage) resultadoFinishmatch;
+                    Store.get().toast(em.getText());
+                } else if (resultadoFinishmatch.getType().equals(OKMessage.class.getSimpleName())) {
+                    OKMessage okM=(OKMessage) resultadoFinishmatch;
+                    //dialogo
+                    Store.get().toast("HAS PERDIU");
+                    Intent intent=new Intent(this, LoginActivity.class);
+                    startActivity(intent);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                Store.get().toast("Tarea interrumpida: " + e.getMessage());
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+                Store.get().toast("Error en ejecución: " + e.getMessage());
+            }
+            task=null;
+        }
+
+
     }
+
+
 
     public void warning(View view) {
         Intent intent=new Intent(this, WarningActivity.class);

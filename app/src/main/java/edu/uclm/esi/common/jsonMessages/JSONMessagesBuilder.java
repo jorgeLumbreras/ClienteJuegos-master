@@ -30,9 +30,9 @@ public class JSONMessagesBuilder {
 		if (jso.get("type").equals(SurrenderAnnouncement.class.getSimpleName()))
 			return new SurrenderAnnouncement(jso);
 		if (jso.get("type").equals(VictoryAnnouncement.class.getSimpleName()))
-			return new SendMovementMessage(jso);
+			return new VictoryAnnouncement(jso);
 		if (jso.get("type").equals(DefeatAnnouncement.class.getSimpleName()))
-			return new SurrenderAnnouncement(jso);
+			return new DefeatAnnouncement(jso);
 
 
 /*
