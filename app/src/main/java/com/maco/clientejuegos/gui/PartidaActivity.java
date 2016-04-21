@@ -1,7 +1,9 @@
 package com.maco.clientejuegos.gui;
 
 
+import android.app.AlertDialog;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -256,7 +258,6 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
             }
         });
 
-
     }
 
     @Override
@@ -280,6 +281,21 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
         if (jsm.getType().equals(VictoryAnnouncement.class.getSimpleName())) {
             Store store=Store.get();
             store.toast("¡Has ganado!");
+
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Enhorabuena");
+            alertDialog.setMessage("¡¡¡ Has vencido !!!");
+            alertDialog.setButton("Aceptar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // aquí puedes añadir funciones
+                    Intent intent = new Intent(PartidaActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    dialog.dismiss();
+                }
+            });
+            alertDialog.show();
+
+
             LogoutWaitingMessage lom=new LogoutWaitingMessage(store.getUser().getEmail(), store.getIdMatch(),false);
             NetTask task=new NetTask("LogoutWaiting.action", lom);
             task.execute();
@@ -292,8 +308,6 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
                     Store.get().toast(em.getText());
                 } else if (resultadoLogoutWaiting.getType().equals(OKMessage.class.getSimpleName())) {
                     OKMessage okM=(OKMessage) resultadoLogoutWaiting;
-                    Intent intent=new Intent(this, LoginActivity.class);
-                    startActivity(intent);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -304,13 +318,27 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
             }
             task=null;
 
-            Intent intent=new Intent(this, LoginActivity.class);
-            startActivity(intent);
 
         }
         if (jsm.getType().equals(DefeatAnnouncement.class.getSimpleName())) {
             Store store=Store.get();
             store.toast("Has sido derrotado");
+
+
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Has sido derrotado");
+         //   alertDialog.setMessage("Estás seguro?");
+            alertDialog.setButton("Aceptar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // aquí puedes añadir funciones
+                    Intent intent = new Intent(PartidaActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    dialog.dismiss();
+                }
+            });
+            alertDialog.show();
+
+
             LogoutWaitingMessage lom=new LogoutWaitingMessage(store.getUser().getEmail(), store.getIdMatch(),false);
             NetTask task=new NetTask("LogoutWaiting.action", lom);
             task.execute();
@@ -323,8 +351,6 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
                     Store.get().toast(em.getText());
                 } else if (resultadoLogoutWaiting.getType().equals(OKMessage.class.getSimpleName())) {
                     OKMessage okM=(OKMessage) resultadoLogoutWaiting;
-                    Intent intent=new Intent(this, LoginActivity.class);
-                    startActivity(intent);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -335,8 +361,6 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
             }
             task=null;
 
-            Intent intent=new Intent(this, LoginActivity.class);
-            startActivity(intent);
         }
 
 
@@ -352,6 +376,8 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        FragmentManager fragmentManager = getFragmentManager();
+        SurrenderDialog dialogo = new SurrenderDialog();
+        dialogo.show(fragmentManager, "tagAlerta");
     }
 }
