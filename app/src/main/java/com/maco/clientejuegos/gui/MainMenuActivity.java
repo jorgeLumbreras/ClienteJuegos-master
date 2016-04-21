@@ -26,4 +26,9 @@ public class MainMenuActivity extends AppCompatActivity {
         Intent intent = new Intent(this,CreateAccountActivity.class);
         startActivity(intent);
     }
+
+    public void records(View view){
+        Intent intent = new Intent(this,RecordsActivity.class);
+        startActivity(intent);
+    }
 }

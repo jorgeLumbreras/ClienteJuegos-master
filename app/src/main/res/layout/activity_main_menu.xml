@@ -30,5 +30,13 @@
             android:text="Create account"
             android:id="@+id/btnCreateAccount"
             android:onClick="createAccount" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Records"
+            android:id="@+id/btnRecords"
+            android:layout_gravity="center_horizontal"
+            android:onClick="records" />
     </LinearLayout>
 </RelativeLayout>

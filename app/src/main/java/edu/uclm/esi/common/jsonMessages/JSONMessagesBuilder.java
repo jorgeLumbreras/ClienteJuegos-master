@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import sudokus.DefeatAnnouncement;
+import sudokus.ListRecordsAnnouncement;
 import sudokus.SendMovementMessage;
 import sudokus.VictoryAnnouncement;
 
@@ -33,7 +34,8 @@ public class JSONMessagesBuilder {
 			return new VictoryAnnouncement(jso);
 		if (jso.get("type").equals(DefeatAnnouncement.class.getSimpleName()))
 			return new DefeatAnnouncement(jso);
-
+		if (jso.get("type").equals(ListRecordsAnnouncement.class.getSimpleName()))
+			return new ListRecordsAnnouncement(jso);
 
 /*
 		if (jso.get("type").equals(SudokuBoardMessage.class.getSimpleName()))
