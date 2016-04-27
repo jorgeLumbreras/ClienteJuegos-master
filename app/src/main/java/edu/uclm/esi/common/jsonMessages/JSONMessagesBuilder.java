@@ -37,6 +37,9 @@ public class JSONMessagesBuilder {
 		if (jso.get("type").equals(ListRecordsAnnouncement.class.getSimpleName()))
 			return new ListRecordsAnnouncement(jso);
 
+
+
+
 /*
 		if (jso.get("type").equals(SudokuBoardMessage.class.getSimpleName()))
 			return new SudokuBoardMessage(jso);

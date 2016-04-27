@@ -16,9 +16,14 @@ public class CasillaListener implements TextWatcher {
 
     private EditText casilla;
     private int pos;
-    public CasillaListener(EditText editText, int pos) {
+    private EditText[] board;
+    private long time;
+
+    public CasillaListener(EditText editText, int pos, EditText[] board, long time) {
         this.casilla = editText;
         this.pos = pos;
+        this.board=board;
+        this.time=time;
     }
 
     @Override
@@ -33,9 +38,20 @@ public class CasillaListener implements TextWatcher {
 
     @Override
     public void afterTextChanged(Editable s) {
+        //calculamos el tiempo
+        long tiempo_final = System.currentTimeMillis();
+        int timeTotal = (int)(tiempo_final - time)/1000;
+        //creamos el String de tablero
+        String cadenaBoard="";
+        for(int i=0;i<board.length;i++){
+            if(String.valueOf(board[i].getText()).equalsIgnoreCase(""))
+                cadenaBoard=cadenaBoard+"0";
+            else
+                cadenaBoard=cadenaBoard+""+board[i].getText().toString();
+        }
 
         String valor= String.valueOf(this.casilla.getText());
-        SendMovementMessage smm=new SendMovementMessage(Store.get().getUser().getEmail(), Store.get().getIdMatch(), pos,valor);
+        SendMovementMessage smm=new SendMovementMessage(Store.get().getUser().getEmail(), Store.get().getIdMatch(), pos,valor, cadenaBoard, timeTotal);
         NetTask task=new NetTask("SendMovement.action", smm);
         task.execute();
 

@@ -16,6 +16,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.maco.clientejuegos.R;
 import com.maco.clientejuegos.domain.Record;
 import com.maco.clientejuegos.domain.Store;
+import com.maco.clientejuegos.domain.User;
 import com.maco.clientejuegos.http.MessageRecoverer;
 import com.maco.clientejuegos.http.NetTask;
 
@@ -42,12 +43,12 @@ public class RecordsActivity extends AppCompatActivity implements IMessageDealer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_records);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Store.get().setCurrentContext(this);
+
+        this.lv= (ListView) findViewById(R.id.listView);
 
 
-     //   MessageRecoverer messageRecoverer = MessageRecoverer.get(this);
-       // messageRecoverer.setActivity(this);
-        //Thread t = new Thread(messageRecoverer);
-        //t.start();
+
 
 
         GetRecordsMessage grm = new GetRecordsMessage("pin");
@@ -62,6 +63,10 @@ public class RecordsActivity extends AppCompatActivity implements IMessageDealer
                 Store.get().toast(em.getText());
             } else if (resultadoGetRecordsMessage.getType().equals(OKMessage.class.getSimpleName())) {
                 OKMessage okM = (OKMessage) resultadoGetRecordsMessage;
+
+                int idUser=123456789;
+                User user=new User("invitado@uclm.es", idUser);
+                Store.get().setUser(user);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -72,9 +77,16 @@ public class RecordsActivity extends AppCompatActivity implements IMessageDealer
         }
         task = null;
 
-        String[] records = {"1º Eureca", "2º Repampanos", "3º Recorcholis", "1º Eureca", "2º Repampanos", "3º Recorcholis", "1º Eureca", "2º Repampanos", "3º Recorcholis", "1º Eureca", "2º Repampanos", "3º Recorcholis"};
 
-        this.lv = (ListView) findViewById(R.id.listView);
+
+        MessageRecoverer messageRecoverer = MessageRecoverer.get(this);
+        messageRecoverer.setActivity(this);
+        Thread t = new Thread(messageRecoverer);
+        t.start();
+
+ //       String[] records = {"1º Eureca", "2º Repampanos", "3º Recorcholis", "1º Eureca", "2º Repampanos", "3º Recorcholis", "1º Eureca", "2º Repampanos", "3º Recorcholis", "1º Eureca", "2º Repampanos", "3º Recorcholis"};
+
+ //       this.lv = (ListView) findViewById(R.id.listView);
 
  /*       ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, records);
         this.lv.setAdapter(adaptador);
@@ -107,7 +119,7 @@ public class RecordsActivity extends AppCompatActivity implements IMessageDealer
             }
             String[] items = new String[records.size()];
             for(int i = 0;i<items.length;i++){
-                items[i]=""+records.get(i).getTiempo()+"  "+records.get(i).getEmail();
+                items[i]=""+records.get(i).getTiempo()+"  seg      "+records.get(i).getEmail();
             }
             ArrayAdapter<String> adaptador = new ArrayAdapter<String>(RecordsActivity.this, android.R.layout.simple_list_item_1, items);
             this.lv.setAdapter(adaptador);

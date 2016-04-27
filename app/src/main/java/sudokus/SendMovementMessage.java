@@ -19,26 +19,36 @@ public class SendMovementMessage extends JSONMessage {
     private int casilla;
     @JSONable
     private String valor;
+    @JSONable
+    private String board;
+    @JSONable
+    private int time;
 
-    public SendMovementMessage(String user, int idMatch, int casilla, String valor) {
+    public SendMovementMessage(String user, int idMatch, int casilla, String valor, String board, int time) {
         super(true);
         this.user = user;
-        this.idMatch = idMatch;
         this.casilla = casilla;
         this.valor = valor;
+        this.idMatch = idMatch;
+        this.board = board;
+        this.time=time;
     }
 
     public SendMovementMessage(JSONObject jso) throws JSONException {
-        this(jso.getString("user"),jso.getInt("idMatch"),jso.getInt("casilla"),jso.getString("valor"));
+        this(jso.getString("user"),jso.getInt("idMatch"),jso.getInt("casilla"),jso.getString("valor"),jso.getString("board"),jso.getInt("time"));
     }
 
     public String getUser() { return this.user; }
 
-    public int getIdMatch() { return this.idMatch; }
-
     public int getCasilla() { return this.casilla; }
+
+    public int getIdMatch() { return this.idMatch; }
 
     public String getValor() {
         return this.valor;
     }
+
+    public String getBoard() { return this.board; }
+
+    public int getTime() { return this.time; }
 }

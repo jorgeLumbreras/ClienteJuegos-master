@@ -80,7 +80,7 @@ public class MessageRecoverer implements Runnable {
                         handler.sendMessage(msg);
                     }
                 }
-                Thread.sleep(5000);
+                Thread.sleep(1000);
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {

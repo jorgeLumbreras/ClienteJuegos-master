@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.maco.clientejuegos.R;
 import com.maco.clientejuegos.domain.Store;
@@ -21,9 +20,7 @@ import com.maco.clientejuegos.http.NetTask;
 import java.util.concurrent.ExecutionException;
 
 import edu.uclm.esi.common.jsonMessages.ErrorMessage;
-import edu.uclm.esi.common.jsonMessages.LogoutMessageAnnouncement;
 import edu.uclm.esi.common.jsonMessages.LogoutWaitingMessage;
-import edu.uclm.esi.common.jsonMessages.SurrenderAnnouncement;
 import edu.uclm.esi.common.jsonMessages.JSONMessage;
 import edu.uclm.esi.common.jsonMessages.OKMessage;
 import sudokus.DefeatAnnouncement;
@@ -38,7 +35,7 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
      */
     //private GoogleApiClient client;
 
-    private int posicion=0;
+    private long tiempo_inicio = System.currentTimeMillis();
     private EditText[] casillas1;
     private EditText[] casillas2;
 
@@ -246,7 +243,7 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
         t.start();
 
         for(int i=0;i<casillas1.length;i++) {
-            CasillaListener cl = new CasillaListener(casillas1[i],i);
+            CasillaListener cl = new CasillaListener(casillas1[i],i,casillas1,tiempo_inicio);
             casillas1[i].addTextChangedListener(cl);
         }
 
@@ -363,14 +360,6 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
 
         }
 
-
-    }
-
-
-
-    public void warning(View view) {
-        Intent intent=new Intent(this, WarningActivity.class);
-        startActivity(intent);
 
     }
 
