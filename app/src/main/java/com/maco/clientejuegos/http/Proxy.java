@@ -30,7 +30,7 @@ public class Proxy {
 	private String urlServer;
 
 	private Proxy() {
-		this.urlServer = "172.19.150.229:8080"; //172.19.221.40
+		this.urlServer = "172.19.186.150:8080"; //172.19.221.40
 }
 
 	public static Proxy get() {

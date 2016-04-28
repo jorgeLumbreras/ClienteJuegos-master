@@ -15,6 +15,7 @@ public class Store {
     private int idMatch;
     private int idUser;
     private Context ctx;
+    private boolean volver;
     //private MessageRecoverer messageRecoverer;
 
     private Store() {
@@ -66,6 +67,13 @@ public class Store {
         catch (Exception e) {
             Log.e("clienteJuegos", e.getMessage());
         }
+    }
+
+    public boolean hayQueVolver() { return this.volver;
+    }
+
+    public void volver(boolean b){
+        this.volver=b;
     }
 
     /*public void lanzarRecuperadorDeMensajes(IMessageDealerActivity activity) {

@@ -285,9 +285,11 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
             alertDialog.setButton("Aceptar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     // aquí puedes añadir funciones
-                    Intent intent = new Intent(PartidaActivity.this, LoginActivity.class);
-                    startActivity(intent);
+               //     Intent intent = new Intent(PartidaActivity.this, LoginActivity.class);
+               //     startActivity(intent);
                     dialog.dismiss();
+                    Store.get().volver(true);
+                    finish();
                 }
             });
             alertDialog.show();
@@ -328,9 +330,10 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
             alertDialog.setButton("Aceptar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     // aquí puedes añadir funciones
-                    Intent intent = new Intent(PartidaActivity.this, LoginActivity.class);
-                    startActivity(intent);
+                   // Intent intent = new Intent(PartidaActivity.this, LoginActivity.class);
                     dialog.dismiss();
+                    Store.get().volver(true);
+                    finish();
                 }
             });
             alertDialog.show();

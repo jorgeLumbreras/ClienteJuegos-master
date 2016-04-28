@@ -47,6 +47,13 @@ public class WaitingAreaActivity extends AppCompatActivity implements IMessageDe
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if(Store.get().hayQueVolver())
+            finish();
+    }
+
+    @Override
     public void showMessage(JSONMessage jsm) {
         if(jsm.getType().equals(LoginMessageAnnouncement.class.getSimpleName())) {
             TextView tv = new TextView(this);

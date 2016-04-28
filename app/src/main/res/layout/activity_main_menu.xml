@@ -38,5 +38,21 @@
             android:id="@+id/btnRecords"
             android:layout_gravity="center_horizontal"
             android:onClick="records" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/etIPServer"
+            android:hint="IP Server"
+            android:text="172.19.152.10:8080" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fijar IP"
+            android:id="@+id/btnFijarIP"
+            android:onClick="fijarIP" />
     </LinearLayout>
 </RelativeLayout>
