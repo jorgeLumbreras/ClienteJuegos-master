@@ -38,6 +38,7 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
     private long tiempo_inicio = System.currentTimeMillis();
     private EditText[] casillas1;
     private EditText[] casillas2;
+    private MessageRecoverer messageRecoverer;
 
 
     @Override
@@ -237,8 +238,10 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
             }
         }
 
-        MessageRecoverer messageRecoverer = MessageRecoverer.get(this);
+        messageRecoverer = MessageRecoverer.get(this);
         messageRecoverer.setActivity(this);
+        messageRecoverer.setEmailUser(Store.get().getUser().getEmail());
+        messageRecoverer.proseguir();
         Thread t = new Thread(messageRecoverer);
         t.start();
 
@@ -285,16 +288,16 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
             alertDialog.setButton("Aceptar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     // aquí puedes añadir funciones
-               //     Intent intent = new Intent(PartidaActivity.this, LoginActivity.class);
-               //     startActivity(intent);
-                    dialog.dismiss();
+                    //     Intent intent = new Intent(PartidaActivity.this, LoginActivity.class);
+                    //     startActivity(intent);
+                    //     dialog.dismiss();
                     Store.get().volver(true);
                     finish();
                 }
             });
             alertDialog.show();
 
-
+            messageRecoverer.detener();
             LogoutWaitingMessage lom=new LogoutWaitingMessage(store.getUser().getEmail(), store.getIdMatch(),false);
             NetTask task=new NetTask("LogoutWaiting.action", lom);
             task.execute();
@@ -338,7 +341,7 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
             });
             alertDialog.show();
 
-
+            messageRecoverer.detener();
             LogoutWaitingMessage lom=new LogoutWaitingMessage(store.getUser().getEmail(), store.getIdMatch(),false);
             NetTask task=new NetTask("LogoutWaiting.action", lom);
             task.execute();

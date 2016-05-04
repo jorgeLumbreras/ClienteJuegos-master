@@ -37,6 +37,7 @@ import sudokus.ListRecordsAnnouncement;
 public class RecordsActivity extends AppCompatActivity implements IMessageDealerActivity {
 
     private ListView lv;
+    private MessageRecoverer messageRecoverer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +80,10 @@ public class RecordsActivity extends AppCompatActivity implements IMessageDealer
 
 
 
-        MessageRecoverer messageRecoverer = MessageRecoverer.get(this);
+        messageRecoverer = MessageRecoverer.get(this);
         messageRecoverer.setActivity(this);
+        messageRecoverer.setEmailUser(Store.get().getUser().getEmail());
+        messageRecoverer.proseguir();
         Thread t = new Thread(messageRecoverer);
         t.start();
 
@@ -123,6 +126,8 @@ public class RecordsActivity extends AppCompatActivity implements IMessageDealer
             }
             ArrayAdapter<String> adaptador = new ArrayAdapter<String>(RecordsActivity.this, android.R.layout.simple_list_item_1, items);
             this.lv.setAdapter(adaptador);
+
+            messageRecoverer.detener();
         }
     }
 

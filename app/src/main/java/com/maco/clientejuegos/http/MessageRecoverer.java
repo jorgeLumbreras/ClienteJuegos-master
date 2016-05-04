@@ -34,6 +34,7 @@ public class MessageRecoverer implements Runnable {
     private IMessageDealerActivity activity;
     private static MessageRecoverer yo;
 
+
     public static MessageRecoverer get(IMessageDealerActivity activity){
         if(yo == null) {
             yo = new MessageRecoverer(activity);
@@ -104,5 +105,9 @@ public class MessageRecoverer implements Runnable {
         this.detenido=true;
     }
 
+    public void proseguir()  {
+        this.detenido=false;
+    }
 
+    public void setEmailUser(String email){ this.getMessages=new GetMessagesMessage(email); }
 }
