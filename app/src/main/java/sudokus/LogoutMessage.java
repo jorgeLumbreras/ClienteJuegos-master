@@ -1,9 +1,12 @@
-package edu.uclm.esi.common.jsonMessages;
+package sudokus;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LogoutWaitingMessage extends JSONMessage {
+import edu.uclm.esi.common.jsonMessages.JSONMessage;
+import edu.uclm.esi.common.jsonMessages.JSONable;
+
+public class LogoutMessage extends JSONMessage {
     @JSONable
     private String email;
     @JSONable
@@ -11,14 +14,14 @@ public class LogoutWaitingMessage extends JSONMessage {
     @JSONable
     private boolean pending;
 
-    public LogoutWaitingMessage(String email,int idMatch, boolean pending) {
+    public LogoutMessage(String email, int idMatch, boolean pending) {
         super(true);
         this.email=email;
         this.idMatch=idMatch;
         this.pending=pending;
     }
 
-    public LogoutWaitingMessage(JSONObject jso) throws JSONException {
+    public LogoutMessage(JSONObject jso) throws JSONException {
         this(jso.get("email").toString(),jso.getInt("idMatch"),jso.getBoolean("pending"));
     }
 

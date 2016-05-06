@@ -48,10 +48,6 @@ public class RecordsActivity extends AppCompatActivity implements IMessageDealer
 
         this.lv= (ListView) findViewById(R.id.listView);
 
-
-
-
-
         GetRecordsMessage grm = new GetRecordsMessage("pin");
         NetTask task = new NetTask("GetRecords.action", grm);
         task.execute();
@@ -78,8 +74,6 @@ public class RecordsActivity extends AppCompatActivity implements IMessageDealer
         }
         task = null;
 
-
-
         messageRecoverer = MessageRecoverer.get(this);
         messageRecoverer.setActivity(this);
         messageRecoverer.setEmailUser(Store.get().getUser().getEmail());
@@ -87,13 +81,6 @@ public class RecordsActivity extends AppCompatActivity implements IMessageDealer
         Thread t = new Thread(messageRecoverer);
         t.start();
 
- //       String[] records = {"1º Eureca", "2º Repampanos", "3º Recorcholis", "1º Eureca", "2º Repampanos", "3º Recorcholis", "1º Eureca", "2º Repampanos", "3º Recorcholis", "1º Eureca", "2º Repampanos", "3º Recorcholis"};
-
- //       this.lv = (ListView) findViewById(R.id.listView);
-
- /*       ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, records);
-        this.lv.setAdapter(adaptador);
-*/
     }
 
     @Override

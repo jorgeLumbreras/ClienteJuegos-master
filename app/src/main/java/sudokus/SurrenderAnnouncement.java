@@ -1,7 +1,10 @@
-package edu.uclm.esi.common.jsonMessages;
+package sudokus;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import edu.uclm.esi.common.jsonMessages.JSONMessage;
+import edu.uclm.esi.common.jsonMessages.JSONable;
 
 /**
  * Created by JorgeLumbreras on 19/4/16.

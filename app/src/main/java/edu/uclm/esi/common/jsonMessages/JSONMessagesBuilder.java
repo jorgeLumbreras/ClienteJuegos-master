@@ -6,6 +6,8 @@ import org.json.JSONObject;
 import sudokus.DefeatAnnouncement;
 import sudokus.ListRecordsAnnouncement;
 import sudokus.SendMovementMessage;
+import sudokus.SudokuBoardMessage;
+import sudokus.SurrenderAnnouncement;
 import sudokus.VictoryAnnouncement;
 
 public class JSONMessagesBuilder {

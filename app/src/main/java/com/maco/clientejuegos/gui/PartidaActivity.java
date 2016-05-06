@@ -4,7 +4,6 @@ package com.maco.clientejuegos.gui;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +19,7 @@ import com.maco.clientejuegos.http.NetTask;
 import java.util.concurrent.ExecutionException;
 
 import edu.uclm.esi.common.jsonMessages.ErrorMessage;
-import edu.uclm.esi.common.jsonMessages.LogoutWaitingMessage;
+import sudokus.LogoutMessage;
 import edu.uclm.esi.common.jsonMessages.JSONMessage;
 import edu.uclm.esi.common.jsonMessages.OKMessage;
 import sudokus.DefeatAnnouncement;
@@ -47,7 +46,6 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
         setContentView(R.layout.activity_partida2);
 
         Button btnRendirse=(Button) findViewById(R.id.btnRendirse);
-        Button btnComprobar=(Button) findViewById(R.id.btnComprobar);
 
         //con esto obtengo el tablero que lleva el intent
         String b = (String) this.getIntent().getExtras().get("board");
@@ -287,10 +285,6 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
             alertDialog.setMessage("¡¡¡ Has vencido !!!");
             alertDialog.setButton("Aceptar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    // aquí puedes añadir funciones
-                    //     Intent intent = new Intent(PartidaActivity.this, LoginActivity.class);
-                    //     startActivity(intent);
-                    //     dialog.dismiss();
                     Store.get().volver(true);
                     finish();
                 }
@@ -298,7 +292,7 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
             alertDialog.show();
 
             messageRecoverer.detener();
-            LogoutWaitingMessage lom=new LogoutWaitingMessage(store.getUser().getEmail(), store.getIdMatch(),false);
+            LogoutMessage lom=new LogoutMessage(store.getUser().getEmail(), store.getIdMatch(),false);
             NetTask task=new NetTask("LogoutWaiting.action", lom);
             task.execute();
 
@@ -332,9 +326,6 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
          //   alertDialog.setMessage("Estás seguro?");
             alertDialog.setButton("Aceptar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    // aquí puedes añadir funciones
-                   // Intent intent = new Intent(PartidaActivity.this, LoginActivity.class);
-                    dialog.dismiss();
                     Store.get().volver(true);
                     finish();
                 }
@@ -342,7 +333,7 @@ public class PartidaActivity extends AppCompatActivity implements IMessageDealer
             alertDialog.show();
 
             messageRecoverer.detener();
-            LogoutWaitingMessage lom=new LogoutWaitingMessage(store.getUser().getEmail(), store.getIdMatch(),false);
+            LogoutMessage lom=new LogoutMessage(store.getUser().getEmail(), store.getIdMatch(),false);
             NetTask task=new NetTask("LogoutWaiting.action", lom);
             task.execute();
 

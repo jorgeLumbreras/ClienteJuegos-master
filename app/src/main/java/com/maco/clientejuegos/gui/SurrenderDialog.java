@@ -3,14 +3,10 @@ package com.maco.clientejuegos.gui;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
-import com.maco.clientejuegos.R;
 import com.maco.clientejuegos.domain.Store;
 import com.maco.clientejuegos.http.NetTask;
 
@@ -19,7 +15,7 @@ import java.util.concurrent.ExecutionException;
 import edu.uclm.esi.common.jsonMessages.ErrorMessage;
 import edu.uclm.esi.common.jsonMessages.JSONMessage;
 import edu.uclm.esi.common.jsonMessages.OKMessage;
-import edu.uclm.esi.common.jsonMessages.SurrenderAnnouncement;
+import sudokus.SurrenderAnnouncement;
 
 
 /**

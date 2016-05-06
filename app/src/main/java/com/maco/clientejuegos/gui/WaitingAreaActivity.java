@@ -1,6 +1,5 @@
 package com.maco.clientejuegos.gui;
 
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,10 +18,9 @@ import edu.uclm.esi.common.jsonMessages.ErrorMessage;
 import edu.uclm.esi.common.jsonMessages.JSONMessage;
 import edu.uclm.esi.common.jsonMessages.JoinGameMessage;
 import edu.uclm.esi.common.jsonMessages.LoginMessageAnnouncement;
-import edu.uclm.esi.common.jsonMessages.LogoutMessageAnnouncement;
-import edu.uclm.esi.common.jsonMessages.LogoutWaitingMessage;
+import sudokus.LogoutMessage;
 import edu.uclm.esi.common.jsonMessages.OKMessage;
-import edu.uclm.esi.common.jsonMessages.SudokuBoardMessage;
+import sudokus.SudokuBoardMessage;
 
 
 public class WaitingAreaActivity extends AppCompatActivity implements IMessageDealerActivity {
@@ -80,7 +78,7 @@ public class WaitingAreaActivity extends AppCompatActivity implements IMessageDe
 
     public void abandonarEspera(View view) {
         Store store=Store.get();
-        LogoutWaitingMessage lom=new LogoutWaitingMessage(store.getUser().getEmail(), store.getIdMatch(),true);
+        LogoutMessage lom=new LogoutMessage(store.getUser().getEmail(), store.getIdMatch(),true);
         NetTask task=new NetTask("LogoutWaiting.action", lom);
         task.execute();
 
@@ -93,8 +91,6 @@ public class WaitingAreaActivity extends AppCompatActivity implements IMessageDe
             } else if (resultadoLogoutWaiting.getType().equals(OKMessage.class.getSimpleName())) {
                 OKMessage okM=(OKMessage) resultadoLogoutWaiting;
                 finish();
-              //  Intent intent=new Intent(this, LoginActivity.class);
-              //  startActivity(intent);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -109,7 +105,7 @@ public class WaitingAreaActivity extends AppCompatActivity implements IMessageDe
     @Override
     public void onBackPressed() {
         Store store=Store.get();
-        LogoutWaitingMessage lom=new LogoutWaitingMessage(store.getUser().getEmail(), store.getIdMatch(),true);
+        LogoutMessage lom=new LogoutMessage(store.getUser().getEmail(), store.getIdMatch(),true);
         NetTask task=new NetTask("LogoutWaiting.action", lom);
         task.execute();
 
@@ -122,8 +118,6 @@ public class WaitingAreaActivity extends AppCompatActivity implements IMessageDe
             } else if (resultadoLogoutWaiting.getType().equals(OKMessage.class.getSimpleName())) {
                 OKMessage okM=(OKMessage) resultadoLogoutWaiting;
                 finish();
-                //  Intent intent=new Intent(this, LoginActivity.class);
-                //  startActivity(intent);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
